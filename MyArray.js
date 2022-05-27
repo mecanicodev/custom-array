@@ -17,14 +17,15 @@ class MyArray {
     #absIndex(index) {
         return index >= 0 ? index : this.length + index
     }
-    // Devuelve un index positivo tal que 0 < index < this.length - 1
+    /** Returns a positive index such that 0 < index < this.length - 1 */
     #forceIndexToBoundaries(index) {
         return index >= 0 ? Math.min(this.length - 1, index) : Math.max(0, index += this.length)
     }
 
-    // Reasigna los valores a partir de index y los sustituye con el valor 
-    // de n posiciones hacia adelante (n = positions)
-    // Si ShiftAndDelete = true, elimina los ultimos elementos duplicados
+    /**
+     * Reassigns the values ​​starting at index and replaces them with the value n positions forward (n = positions).
+     * If ShiftAndDelete = true, delete the last duplicate elements
+     */
     #shiftLeft(index, options = {}) {
         const {
             positions = 1,
@@ -136,7 +137,7 @@ class MyArray {
     }
 
     at(index = 0) {
-        // Esto para emular comportamiento del método del array nativo de javascript
+        // This is to emulate behavior of javascript's native array method
         if (typeof index === 'boolean') index = index ? 1 : 0;
         if (typeof index !== 'number' || isNaN(index)) index = 0;
 
@@ -150,7 +151,7 @@ class MyArray {
     }
 
     concat() {
-        const newMyArr = new MyArray(...this); // Esto es posible porque esta definido el metódo *[Symbol.iterator]()
+        const newMyArr = new MyArray(...this); // This is possible because the *[Symbol.iterator]() method is defined.
         for (let i = 0; i < arguments.length; i++) {
              // TODO Check this
             
@@ -340,7 +341,7 @@ class MyArray {
         
         if (deleteCount < 0)  deleteCount = 0
         
-        //Este comportamiento es característico del metódo splice de un array standard
+        // This behavior is to emulate the splice method of a standard array.
         if (start > this.length - 1 && deleteCount === 0 && newItems.length > 0 ) {
             for (let i = 0; i < newItems.length; i++) {
                 this.push(newItems[i])
@@ -355,16 +356,15 @@ class MyArray {
         }
         
         
-        // Guarda elementos que van a ser borrados/sobreescritos
+        // Save items to be deleted/overwritten
         for (let i = 0; i < deleteCount; i++) {
             newMyarr.push(this.data[start + i])
         }
         
-        // desplaza el array hacia la derecha a partir de start, 
-        // solo si newItems.length - deleteCount > 0 
+        // shift array to the right from start, only if newItems.length - deleteCount > 0
         this.#shiftRight(start, { positions: newItems.length - deleteCount });
 
-        // Se asignan valores de newItems
+        // newItems values ​​are assigned
         for (let i = start; i < newItems.length; i++) {
             this.data[start + i] = newItems[i];
         }
@@ -391,9 +391,3 @@ class MyArray {
 
 
 module.exports = MyArray;
-
-
-
-
-
-[].forEach()
